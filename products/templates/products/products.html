@@ -112,4 +112,66 @@
             </div>
         </div>
     </div>
+    <!-- back to top button -->
+    <div class="btt-button shadow-sm rounded-0 border border-black">
+        <a class="btt-link d-flex h-100">
+            <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
+        </a>	
+    </div>
+{% endblock %}
+
+<!-- wrap the entire script inside the post loadjs block
+from base template.  -->
+{% block postloadjs %}
+
+    <!-- Using block.super will ensure we append this code 
+    to anything already in the block instead of replacing it -->
+    {{ block.super }}
+
+    <!-- back to top function for button
+    scrolls to teh top of the page -->
+    <script type="text/javascript">
+		$('.btt-link').click(function(e) {
+			window.scrollTo(0,0)
+		})
+    </script>
+    
+    <script type="text/javascript">
+        // capture the change event from the source selector itself
+        $('#sort-selector').change(function() {
+            // variable for the selector equal to 'this'
+            let selector = $(this)
+            // variable for the current url equal to a new url object 
+            // that takes in the current windows location
+            let currentUrl = new URL(window.location)
+
+            // get the selected value from the selector box
+            let selectedVal = selector.val();
+
+            // determine if the selected value is reset indicating 
+            // that we want to reset the sorting to the default 
+            // that we would see on the products page.
+            // If it's not get the sort and direction by splitting
+            // the selected value at the underscore.
+            if(selectedVal != 'reset') {
+                // item sorting on
+                let sort = selectedVal.split('_')[0];
+                // direction - ascending or descending
+                let direction = selectedVal.split('_')[1];
+
+                // replace 'current' sort and direction get parameters in the URL.
+                // using the searchParams.set method from the URL object.
+                currentUrl.searchParams.set('sort', sort);
+                currentUrl.searchParams.set('direction', direction);
+                
+                // using window.location.replace with the updated current URL
+                window.location.replace(currentUrl)
+            } else {
+                // otherwise if user selects the reset option, delete the sort 
+                // and direction get parameters and then replace the location.
+                currentUrl.searchParams.delete('sort', sort);
+                currentUrl.searchParams.delete('direction', direction);
+            }
+        })
+    </script>
 {% endblock %}
