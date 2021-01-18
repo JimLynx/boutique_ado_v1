@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- page header block from base template  -->
+{% block page_header %}
+
+<div class="container header-container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- overlay to cover-up the background image -->
+<div class="overlay"></div>
+
+<div class="container mb-2">
+
+    <!-- shopping bag heading  -->
+    <div class="row">
+        <div class="col">
+            <hr>
+                <h2 class="logo-font mb-4">Shopping Bag</h2>
+            <hr>
+        </div>
+    </div>
+
+    <!-- table to show bag contents -->
+    <div class="row">
+        <div class="col">
+            <!-- if items in bag - render table -->
+            {% if bag_items %}
+                <div class="table-responsive rounded"></div>
+            
+            <!-- if not render paragraph 'bag empty' -->
+            {% else %}
+            <p class="lead mb05">Your bag is empty</p>
+            <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                <span class="icon">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
