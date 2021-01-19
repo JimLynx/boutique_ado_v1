@@ -15,19 +15,38 @@ def bag_contents(request):
     # Getting bag it if it already exists or initializing it to an empty dictionary if not
     bag = request.session.get('bag', {})
     
-    for item_id, quantity in bag.items():
-        # get the product
-        product = get_object_or_404(Product, pk=item_id)
-        # add its quantity times the price to the total
-        total += quantity * product.price
-        # increment the product count by the quantity
-        product_count += quantity
-        #  dictionary containing id, quantity & product object
-        bag_items.append({
-            'item_id': item_id,
-            'quantity': quantity,
-            'product': product,
-        })
+    for item_id, item_data in bag.items():
+        # if integer we know its a quantity
+        if isinstance(item_data, int):
+            # get the product
+            product = get_object_or_404(Product, pk=item_id)
+            # add its quantity times the price to the total
+            total += item_data * product.price
+            # increment the product count by the quantity
+            product_count += item_data
+            #  dictionary containing id, quantity & product object
+            bag_items.append({
+                'item_id': item_id,
+                'quantity': item_data,
+                'product': product,
+            })
+        # if not integer, then its in dictionary
+        else:
+            # iterate through the inner dictionary of items_by_size
+            # incrementing the product count and total accordingly.
+            product = get_object_or_404(Product, pk=item_id)
+            for size, quantity in item_data['items_by_size'].items():
+                total += quantity * product.price
+                product_count += quantity
+                #for each item add the size to the 
+                # bag items returned to the template 
+                bag_items.append({
+                    'item_id': item_id,
+                    'quantity': item_data,
+                    'product': product,
+                    'size': size,
+                })
+
 
     # give free delivery if spend more than amount
     # specified in free delivery threshold in settings.py
