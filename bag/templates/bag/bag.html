@@ -35,7 +35,9 @@
         <div class="col">
             <!-- if items in bag - render table -->
             {% if bag_items %}
-                <div class="table-responsive rounded"></div>
+                <div class="table-responsive rounded">
+                    {{ bag_items }}
+                </div>
             
             <!-- if not render paragraph 'bag empty' -->
             {% else %}
