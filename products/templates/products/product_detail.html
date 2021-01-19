@@ -52,7 +52,23 @@
                     user's method of selecting how many of this item they want to purchase 
                     allow user to submit a quantity & specific product id to add to the bag -->
                     <div class="form-row">
-                        <div class="col-12">
+                        <!-- with statement to assign product.has_sizes to a 
+                            variable s so we can reuse it in one other spot -->
+                            {% with product.has_sizes as s %}
+                            {% if s %}
+                                <div class="col-12">
+                                    <p><strong>Size:</strong></p>
+                                    <select class="form-control rounded-0 w-50" name="product_size" id='id_product_size'>
+                                        <option value="xs">XS</option>
+                                        <option value="s">S</option>
+                                        <option value="m" selected>M</option>
+                                        <option value="l">L</option>
+                                        <option value="xl">XL</option>
+                                    </select>
+                                </div>
+                            {% endif %}
+
+                        <div class="col{% if s %}-12 mt-2{% endif %}">
                             <p class="mt-3"><strong>Quantity:</strong></p>
                             <div class="form-group w-50">
                                 <div class="input-group">
@@ -77,6 +93,8 @@
                         <!-- hidden input field using request.path attribute
                         to submit a field named redirect_url. Which will contain the current URL. -->
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                        
+                        {% endwith %}
                     </div>
                 </form>
             </div>

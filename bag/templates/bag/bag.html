@@ -38,12 +38,12 @@
                 <div class="table-responsive rounded">
                     <table class="table table-sm table-borderless">
                         <thead class="text-black">
-                            <th class="col">Product Info</th>
+                            <th scope="col">Product Info</th>
                             <!-- leave 2nd blank as product info spans 2 cols  -->
-                            <th class="col"></th>
-                            <th class="col">Price</th>
-                            <th class="col">Qty</th>
-                            <th class="col">Subtotal</th>
+                            <th scope="col"></th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Subtotal</th>
                         </thead>
 
                         <!-- iterate through each item in the shopping 
@@ -58,7 +58,8 @@
 
                             <!-- col for name and sku -->
                             <td class="py-3">
-                                <p class="my-0">{{ item.product.name }}</p>
+                                <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                                <p class="my-0"><strong>Size: </strong>{% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
                                 <p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
                             </td>
                             <!-- col for price -->
