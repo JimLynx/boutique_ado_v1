@@ -62,7 +62,11 @@ def checkout(request):
                             product=product,
                             quantity=item_data,
                         )
-                        order_line_item.save()
+                        order_line_item.save(commit=False)
+                        pid = request.POST.get('client_secret').split('_secret')[0]
+                        order.stripe_pid = pid
+                        order.original_bag = json.dumps(bag)
+                        order.save()
                     else:
                         for size, quantity in item_data['items_by_size'].items():
                             order_line_item = OrderLineItem(
